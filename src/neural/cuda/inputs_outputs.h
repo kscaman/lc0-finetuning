@@ -48,12 +48,16 @@ struct InputsOutputs {
 
     ReportCUDAErrors(cudaHostAlloc(
         &op_policy_mem_, maxBatchSize * kNumOutputPolicy * sizeof(float), 0));
+    ReportCUDAErrors(cudaHostAlloc(
+        &op_partial_mem_, maxBatchSize * kNumOutputPartial * sizeof(float), 0));
 
     // Seperate device memory copy for policy output.
     // It's faster to write to device memory and then copy to host memory
     // than having the kernel write directly to it.
     ReportCUDAErrors(cudaMalloc(
         &op_policy_mem_gpu_, maxBatchSize * kNumOutputPolicy * sizeof(float)));
+    ReportCUDAErrors(cudaMalloc(
+        &op_partial_mem_gpu_, maxBatchSize * kNumOutputPartial * sizeof(float)));
 
     ReportCUDAErrors(cudaHostAlloc(&op_value_mem_,
                                    maxBatchSize * (wdl ? 3 : 1) * sizeof(float),
@@ -91,6 +95,8 @@ struct InputsOutputs {
     ReportCUDAErrors(cudaFreeHost(input_val_mem_));
     ReportCUDAErrors(cudaFreeHost(op_policy_mem_));
     ReportCUDAErrors(cudaFree(op_policy_mem_gpu_));
+    ReportCUDAErrors(cudaFreeHost(op_partial_mem_));
+    ReportCUDAErrors(cudaFree(op_partial_mem_gpu_));
     ReportCUDAErrors(cudaFreeHost(op_value_mem_));
 
     if (multi_stream_) {
@@ -107,6 +113,7 @@ struct InputsOutputs {
   uint64_t* input_masks_mem_;
   float* input_val_mem_;
   float* op_policy_mem_;
+  float* op_partial_mem_;
   float* op_value_mem_;
   float* op_moves_left_mem_;
 
@@ -118,6 +125,7 @@ struct InputsOutputs {
 
   // This is a seperate copy.
   float* op_policy_mem_gpu_;
+  float* op_partial_mem_gpu_;
 
   // memory needed to run the network owned by InputsOutputs when multi_stream
   // is enabled

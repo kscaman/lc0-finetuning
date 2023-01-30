@@ -232,7 +232,6 @@ class CudaNetwork : public Network {
 
     const int kNumInputPlanes = kInputPlanes;
     const int kNumFilters = (int)weights.input.biases.size();
-    const int kNumOutputPartial = kNumFilters*8*8;
     numBlocks_ = (int)weights.residual.size();
     numFilters_ = kNumFilters;
 
