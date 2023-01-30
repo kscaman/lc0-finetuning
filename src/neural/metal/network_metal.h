@@ -88,7 +88,7 @@ class MetalNetworkComputation : public NetworkComputation {
 
   float GetPartialVal(int /* sample */, int /* id */) const override {
     // NOT IMPLEMENTED
-    return 0;
+    return 7;
   }
 
 

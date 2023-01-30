@@ -131,7 +131,7 @@ class Output {
  public:
   // Not exposed.
   Output(const NetworkComputation& computation, int idx) {
-    for (int i = 0; i < 12288; ++i) partial_[i] = computation.GetPartialVal(idx, i);
+    for (int i = 0; i < 18432; ++i) partial_[i] = computation.GetPartialVal(idx, i);
     for (int i = 0; i < 1858; ++i) p_[i] = computation.GetPVal(idx, i);
     q_ = computation.GetQVal(idx);
     d_ = computation.GetDVal(idx);
@@ -142,8 +142,8 @@ class Output {
   float m() const { return m_; }
 
   std::vector<float> partial() {
-    std::vector<float> result(12288);
-    for (int i = 0; i < 12288; ++i) {
+    std::vector<float> result(18432);
+    for (int i = 0; i < 18432; ++i) {
       result[i] = partial_[i];
     }
     return result;
@@ -180,7 +180,7 @@ class Output {
   }
 
  private:
-  float partial_[12288];
+  float partial_[18432];
   float p_[1858];
   float q_;
   float d_;

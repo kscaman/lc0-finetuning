@@ -134,7 +134,7 @@ class OnednnNetworkComputation : public NetworkComputation {
 
   float GetPartialVal(int /* sample */, int /* id */) const override {
     // NOT IMPLEMENTED
-    return 0;
+    return 8;
   }
 
   float GetMVal(int sample) const override {

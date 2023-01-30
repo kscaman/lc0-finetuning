@@ -185,7 +185,7 @@ float OnnxComputation<DataType>::GetPVal(int sample, int move_id) const {
 template <typename DataType>
 float OnnxComputation<DataType>::GetPartialVal(int /* sample */, int /* id */) const {
   // NOT IMPLEMENTED
-  return 0;
+  return 9;
 }
 
 template <typename DataType>
