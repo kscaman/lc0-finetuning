@@ -131,11 +131,13 @@ class Output {
  public:
   // Not exposed.
   Output(const NetworkComputation& computation, int idx) {
+    for (int i = 0; i < kNumOutputPartial; ++i) partial_[i] = computation.GetPartialVal(idx, i);
     for (int i = 0; i < 1858; ++i) p_[i] = computation.GetPVal(idx, i);
     q_ = computation.GetQVal(idx);
     d_ = computation.GetDVal(idx);
     m_ = computation.GetMVal(idx);
   }
+  float partial() const { return partial_; }
   float q() const { return q_; }
   float d() const { return d_; }
   float m() const { return m_; }
@@ -170,6 +172,7 @@ class Output {
   }
 
  private:
+  float partial_[kNumOutputPartial];
   float p_[1858];
   float q_;
   float d_;

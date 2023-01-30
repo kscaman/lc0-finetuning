@@ -139,6 +139,10 @@ class CudaNetworkComputation : public NetworkComputation {
     return 0.0f;
   }
 
+  float GetPartialVal(int sample, int id) const override {
+    return inputs_outputs_->op_partial_mem_[sample * kNumOutputPolicy + id];
+  }
+
  private:
   // Memory holding inputs, outputs.
   std::unique_ptr<InputsOutputs> inputs_outputs_;
@@ -228,6 +232,7 @@ class CudaNetwork : public Network {
 
     const int kNumInputPlanes = kInputPlanes;
     const int kNumFilters = (int)weights.input.biases.size();
+    const int kNumOutputPartial = kNumFilters*8*8;
     numBlocks_ = (int)weights.residual.size();
     numFilters_ = kNumFilters;
 
@@ -537,6 +542,7 @@ class CudaNetwork : public Network {
     float* opPol = io->op_policy_mem_gpu_;
     float* opVal = io->op_value_mem_gpu_;
     float* opMov = io->op_moves_left_mem_gpu_;
+    float* opPartial = io->op_partial_mem_gpu_;
 
 
     // Figure out if the memory requirment for running the res block would fit
@@ -605,6 +611,15 @@ class CudaNetwork : public Network {
       cudaCtxResetPersistingL2Cache();
     }
 #endif
+
+    copyTypeConverted(opPartial, (half*)(tensor_mem[2]),
+                      batchSize * kNumOutputPartial, stream);  // POLICY
+
+    // Copy partial output from device memory to host memory.
+    ReportCUDAErrors(
+        cudaMemcpyAsync(io->op_partial_mem_, io->op_partial_mem_gpu_,
+                        sizeof(float) * kNumOutputPartial * batchSize,
+                        cudaMemcpyDeviceToHost, stream));
 
     // Policy head.
     if (attn_policy_) {

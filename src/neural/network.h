@@ -67,6 +67,8 @@ class NetworkComputation {
   // Returns P value @move_id of @sample.
   virtual float GetPVal(int sample, int move_id) const = 0;
   virtual float GetMVal(int sample) const = 0;
+  // Returns partial output value @id of @sample.
+  virtual float GetPartialVal(int sample, int id) const = 0;
   virtual ~NetworkComputation() = default;
 };
 

@@ -1,6 +1,8 @@
 [![CircleCI](https://circleci.com/gh/LeelaChessZero/lc0.svg?style=shield)](https://circleci.com/gh/LeelaChessZero/lc0)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/3245b83otdee7oj7?svg=true)](https://ci.appveyor.com/project/leelachesszero/lc0)
 
+This fork of LeelaChess Zero is intended to allow finetuning of the last layers of LC0 via Pytorch (added a partial output without policy or value heads).
+
 # Lc0
 
 Lc0 is a UCI-compliant chess engine designed to play chess via neural network, specifically those of the [LeelaChessZero project](https://lczero.org).
