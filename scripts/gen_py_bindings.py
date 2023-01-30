@@ -83,8 +83,7 @@ output.AddMethod('p_raw').AddParameter(IntegralArgv('samples', 'i')).AddRetVal(
     IntegralTupleRetVal('f32')).AddEx(ex)
 output.AddMethod('p_softmax').AddParameter(IntegralArgv(
     'samples', 'i')).AddRetVal(IntegralTupleRetVal('f32')).AddEx(ex)
-output.AddMethod('partial').AddParameter(IntegralArgv(
-    'samples', 'i')).AddRetVal(IntegralTupleRetVal('f32')).AddEx(ex)
+output.AddMethod('partial').AddRetVal(IntegralTupleRetVal('f32')).AddEx(ex)
 
 # Backend capabilities class
 backend_caps = mod.AddClass(
