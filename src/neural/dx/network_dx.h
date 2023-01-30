@@ -127,7 +127,7 @@ class DxNetworkComputation : public NetworkComputation {
         ->op_policy_mem_final_[sample * kNumOutputPolicy + move_id];
   }
 
-  float GetPartialVal(int sample, int id) const override {
+  float GetPartialVal(int /* sample */, int /* id */) const override {
     // NOT IMPLEMENTED
     return 0;
   }

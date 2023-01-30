@@ -97,7 +97,7 @@ class BlasComputation : public NetworkComputation {
   }
 
   // Returns partial output value @id of @sample.
-  float GetPartialVal(int sample, int id) const override {
+  float GetPartialVal(int /* sample */, int /* id */) const override {
     // NOT IMPLEMENTED
     return 0;
   }

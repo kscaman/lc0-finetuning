@@ -165,7 +165,7 @@ class CudnnNetworkComputation : public NetworkComputation {
     return inputs_outputs_->op_policy_mem_[sample * kNumOutputPolicy + move_id];
   }
 
-  float GetPartialVal(int sample, int id) const override {
+  float GetPartialVal(int /* sample */, int /* id */) const override {
     // NOT IMPLEMENTED
     return 0;
   }

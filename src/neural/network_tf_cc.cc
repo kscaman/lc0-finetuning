@@ -369,7 +369,7 @@ class TFNetworkComputation : public NetworkComputation {
   float GetPVal(int sample, int move_id) const override {
     return output_[1].template matrix<float>()(sample, move_id);
   }
-  float GetPartialVal(int sample, int id) const override {
+  float GetPartialVal(int /* sample */, int /* id */) const override {
     // NOT IMPLEMENTED
     return 0;
   }
