@@ -94,6 +94,11 @@ class RandomNetworkComputation : public NetworkComputation {
            (a / 10000.0f);
   }
 
+  float GetPartialVal(int sample, int id) const override {
+    // NOT IMPLEMENTED
+    return 0;
+  }
+
  private:
   std::vector<std::uint64_t> inputs_;
   int delay_ms_ = 0;

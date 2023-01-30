@@ -79,6 +79,9 @@ class RecordComputation : public NetworkComputation {
   float GetPVal(int sample, int move_id) const override {
     return Capture(inner_->GetPVal(sample, move_id), sample);
   }
+  float GetPartialVal(int sample, int id) const override {
+    return Capture(inner_->GetPartialVal(sample, id), sample);
+  }
   float GetMVal(int sample) const override {
     return Capture(inner_->GetMVal(sample), sample);
   }
@@ -146,6 +149,7 @@ class ReplayComputation : public NetworkComputation {
   float GetDVal(int sample) const override { return Replay(sample); }
   // Returns P value @move_id of @sample.
   float GetPVal(int sample, int) const override { return Replay(sample); }
+  float GetPartialVal(int sample, int) const override { return Replay(sample); }
   float GetMVal(int sample) const override { return Replay(sample); }
   virtual ~ReplayComputation() {}
 

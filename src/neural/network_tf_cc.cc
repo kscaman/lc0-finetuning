@@ -369,6 +369,10 @@ class TFNetworkComputation : public NetworkComputation {
   float GetPVal(int sample, int move_id) const override {
     return output_[1].template matrix<float>()(sample, move_id);
   }
+  float GetPartialVal(int sample, int id) const override {
+    // NOT IMPLEMENTED
+    return 0;
+  }
   float GetMVal(int sample) const override {
     if (network_->IsMlh()) {
       return output_[2].template matrix<float>()(sample, 0);

@@ -96,6 +96,12 @@ class BlasComputation : public NetworkComputation {
     return policies_[sample][move_id];
   }
 
+  // Returns partial output value @id of @sample.
+  float GetPartialVal(int sample, int id) const override {
+    // NOT IMPLEMENTED
+    return 0;
+  }
+
  private:
   void EncodePlanes(const InputPlanes& sample, float* buffer);
 

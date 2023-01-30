@@ -66,6 +66,7 @@ class OnnxComputation : public NetworkComputation {
   float GetQVal(int sample) const override;
   float GetDVal(int sample) const override;
   float GetPVal(int sample, int move_id) const override;
+  float GetPartialVal(int sample, int id) const override;
   float GetMVal(int sample) const override;
 
  private:
@@ -179,6 +180,12 @@ template <typename DataType>
 float OnnxComputation<DataType>::GetPVal(int sample, int move_id) const {
   const auto& data = output_tensors_data_[network_->policy_head_];
   return AsFloat(data[sample * 1858 + move_id]);
+}
+
+template <typename DataType>
+float OnnxComputation<DataType>::GetPartialVal(int sample, int id) const {
+  // NOT IMPLEMENTED
+  return 0;
 }
 
 template <typename DataType>

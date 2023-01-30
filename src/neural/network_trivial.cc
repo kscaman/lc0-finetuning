@@ -449,6 +449,11 @@ class TrivialNetworkComputation : public NetworkComputation {
   float GetPVal(int /* sample */, int move_id) const override {
     return kLogPolicy[move_id];
   }
+  float GetPartialVal(int /* sample */, int id) const override {
+    // NOT IMPLEMENTED
+    return 0;
+  }
+
 
  private:
   std::vector<float> q_;

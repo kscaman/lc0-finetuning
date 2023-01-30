@@ -199,6 +199,11 @@ class OpenCLComputation : public NetworkComputation {
     return policies_[sample][move_id];
   }
 
+  float GetPartialVal(int sample, int id) const override {
+    // NOT IMPLEMENTED
+    return 0;
+  }
+
  private:
   static constexpr auto kWidth = 8;
   static constexpr auto kHeight = 8;
