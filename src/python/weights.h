@@ -140,7 +140,15 @@ class Output {
   float q() const { return q_; }
   float d() const { return d_; }
   float m() const { return m_; }
-  std::vector<float> partial() const { return partial_; }
+
+  std::vector<float> partial() {
+    std::vector<float> result(12288);
+    for (int i = 0; i < 12288; ++i) {
+      result[i] = partial_[i];
+    }
+    return result;
+  }
+
   std::vector<float> p_raw(const std::vector<int>& indicies) {
     std::vector<float> result(indicies.size());
     for (size_t i = 0; i < indicies.size(); ++i) {
