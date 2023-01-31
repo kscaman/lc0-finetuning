@@ -611,8 +611,13 @@ class CudaNetwork : public Network {
     }
 #endif
 
-    copyTypeConverted(opPartial, (half*)(tensor_mem[2]),
-                      batchSize * kNumOutputPartial, stream);  // POLICY
+    if(fp16) {
+      copyTypeConverted(opPartial, (half*)(tensor_mem[2]),
+                        batchSize * kNumOutputPartial, stream);
+    } else {
+      copyTypeConverted(opPartial, (float*)(tensor_mem[2]),
+                        batchSize * kNumOutputPartial, stream);
+    }
 
     // Copy partial output from device memory to host memory.
     ReportCUDAErrors(
