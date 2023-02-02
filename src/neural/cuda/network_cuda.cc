@@ -625,7 +625,7 @@ class CudaNetwork : public Network {
     }
 
     // tensor_mem[2][2] = 1.0f;
-    opPartial[3] = (DataType) 1.0f;
+    // opPartial[3] = (DataType) 1.0f;
 
     // Copy partial output from device memory to host memory.
     ReportCUDAErrors(
