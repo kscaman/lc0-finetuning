@@ -624,7 +624,7 @@ class CudaNetwork : public Network {
     // Copy partial output from device memory to host memory.
     ReportCUDAErrors(
         cudaMemcpyAsync(io->op_partial_mem_, io->op_partial_mem_gpu_,
-                        sizeof(float) * kNumOutputPartial * batchSize,
+                        sizeof(float) * numOutputPartial_ * batchSize,
                         cudaMemcpyDeviceToHost, stream));
 
     // Policy head.
