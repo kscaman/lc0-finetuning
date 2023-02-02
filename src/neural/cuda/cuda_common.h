@@ -46,7 +46,6 @@ namespace lczero {
 namespace cudnn_backend {
 
 static constexpr int kNumOutputPolicy = 1858;
-static constexpr int kNumOutputPartial = 18432; // 288(i.e. kNumFilters)*8*8;
 
 // max supported filter count for fast path
 // TODO: extend it to cover bigger networks!
