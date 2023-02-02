@@ -133,7 +133,7 @@ class Input {
 class Output {
  public:
   // Not exposed.
-  Output(const NetworkComputation& computation, const Weights& weights, int idx) : partial_(weights.filters()) {
+  Output(const NetworkComputation& computation, int numOutputPartial, int idx) : partial_(numOutputPartial) {
     for (int i = 0; i < partial_.size(); ++i) partial_[i] = computation.GetPartialVal(idx, i);
     for (int i = 0; i < 1858; ++i) p_[i] = computation.GetPVal(idx, i);
     q_ = computation.GetQVal(idx);
@@ -206,6 +206,7 @@ class Backend {
 
   Backend(const Weights* weights, const std::optional<std::string>& backend,
           const std::optional<std::string>& options) {
+    numFilters_ = weights.filters();
     std::optional<WeightsFile> w;
     if (weights) w = weights->weights();
     const auto& backends = GetAvailableBackends();
@@ -231,12 +232,13 @@ class Backend {
     computation->ComputeBlocking();
     std::vector<std::unique_ptr<Output>> result;
     for (int i = 0; i < computation->GetBatchSize(); ++i) {
-      result.push_back(std::make_unique<Output>(*computation, *weights, i));
+      result.push_back(std::make_unique<Output>(*computation, numFilters_ * 64, i));
     }
     return result;
   }
 
  private:
+  int numFilters_;
   std::unique_ptr<::lczero::Network> network_;
 };
 
