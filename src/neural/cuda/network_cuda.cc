@@ -140,7 +140,7 @@ class CudaNetworkComputation : public NetworkComputation {
   }
 
   float GetPartialVal(int sample, int id) const override {
-    return inputs_outputs_->op_partial_mem_[sample * kNumOutputPolicy + id];
+    return inputs_outputs_->op_partial_mem_[sample * kNumOutputPartial + id];
   }
 
  private:
@@ -613,7 +613,7 @@ class CudaNetwork : public Network {
     }
 #endif
 
-    tensor_mem[2][0] = 1.0f;
+    // tensor_mem[2][0] = 1.0f;
     // tensor_mem[2][1] = 1.0f;
 
     if(fp16) {
@@ -625,7 +625,7 @@ class CudaNetwork : public Network {
     }
 
     // tensor_mem[2][2] = 1.0f;
-    // opPartial[3] = 1.0f;
+    opPartial[3] = 1.0f;
 
     // Copy partial output from device memory to host memory.
     ReportCUDAErrors(
