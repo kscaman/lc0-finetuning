@@ -49,7 +49,7 @@ struct InputsOutputs {
     ReportCUDAErrors(cudaHostAlloc(
         &op_policy_mem_, maxBatchSize * kNumOutputPolicy * sizeof(float), 0));
     ReportCUDAErrors(cudaHostAlloc(
-        &op_partial_mem_, maxBatchSize * kNumOutputPartial * sizeof(float), 0));
+        &op_partial_mem_, maxBatchSize * kMaxOutputPartial * sizeof(float), 0));
 
     // Seperate device memory copy for policy output.
     // It's faster to write to device memory and then copy to host memory
@@ -57,7 +57,7 @@ struct InputsOutputs {
     ReportCUDAErrors(cudaMalloc(
         &op_policy_mem_gpu_, maxBatchSize * kNumOutputPolicy * sizeof(float)));
     ReportCUDAErrors(cudaMalloc(
-        &op_partial_mem_gpu_, maxBatchSize * kNumOutputPartial * sizeof(float)));
+        &op_partial_mem_gpu_, maxBatchSize * kMaxOutputPartial * sizeof(float)));
 
     ReportCUDAErrors(cudaHostAlloc(&op_value_mem_,
                                    maxBatchSize * (wdl ? 3 : 1) * sizeof(float),

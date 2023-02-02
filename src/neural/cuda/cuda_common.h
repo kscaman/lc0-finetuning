@@ -46,7 +46,6 @@ namespace lczero {
 namespace cudnn_backend {
 
 static constexpr int kNumOutputPolicy = 1858;
-static constexpr int kNumOutputPartial = 18432; // 288(i.e. kNumFilters)*8*8;
 
 // max supported filter count for fast path
 // TODO: extend it to cover bigger networks!
@@ -60,6 +59,8 @@ static constexpr int kMaxResBlockFusingSeFp16AmpereSmem =
     72 * kMaxResBlockFusingSeKFp16Ampere *
     sizeof(half);  // shared memory used by the special
                    // kernel
+
+static constexpr int kMaxOutputPartial = kMaxResBlockFusingChannels * 64;
 
 #ifdef USE_CUDNN
 void CudnnError(cudnnStatus_t status, const char* file, const int& line);

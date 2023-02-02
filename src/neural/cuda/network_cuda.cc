@@ -232,8 +232,10 @@ class CudaNetwork : public Network {
 
     const int kNumInputPlanes = kInputPlanes;
     const int kNumFilters = (int)weights.input.biases.size();
+    const int kNumOutputPartial = kNumFilters * 64;
     numBlocks_ = (int)weights.residual.size();
     numFilters_ = kNumFilters;
+    numOutputPartial_ = kNumOutputPartial;
 
     // Warn if the memory required for storing transformed weights is
     // going to exceed 40% of total video memory, force custom_winograd off
@@ -613,10 +615,10 @@ class CudaNetwork : public Network {
 
     if(fp16) {
       copyTypeConverted(opPartial, (half*)(tensor_mem[2]),
-                        batchSize * kNumOutputPartial, stream);
+                        batchSize * numOutputPartial_, stream);
     } else {
       copyTypeConverted(opPartial, (float*)(tensor_mem[2]),
-                        batchSize * kNumOutputPartial, stream);
+                        batchSize * numOutputPartial_, stream);
     }
 
     // Copy partial output from device memory to host memory.
@@ -843,6 +845,7 @@ class CudaNetwork : public Network {
 
   int numBlocks_;
   int numFilters_;
+  int numOutputPartial_;
   bool has_se_;
   bool conv_policy_;
   bool attn_policy_;
