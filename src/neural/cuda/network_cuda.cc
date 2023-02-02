@@ -613,6 +613,9 @@ class CudaNetwork : public Network {
     }
 #endif
 
+    tensor_mem[2][0] = 0;
+    tensor_mem[2][1] = 0;
+
     if(fp16) {
       copyTypeConverted(opPartial, (half*)(tensor_mem[2]),
                         batchSize * numOutputPartial_, stream);
@@ -621,11 +624,17 @@ class CudaNetwork : public Network {
                         batchSize * numOutputPartial_, stream);
     }
 
+    tensor_mem[2][2] = 0;
+    opPartial[3] = 0;
+
     // Copy partial output from device memory to host memory.
     ReportCUDAErrors(
         cudaMemcpyAsync(io->op_partial_mem_, io->op_partial_mem_gpu_,
                         sizeof(float) * numOutputPartial_ * batchSize,
                         cudaMemcpyDeviceToHost, stream));
+
+    tensor_mem[2][4] = 0;
+    opPartial[5] = 0;
 
     // Policy head.
     if (attn_policy_) {
