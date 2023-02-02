@@ -71,8 +71,9 @@ class Weights {
   }
   int blocks() const { return weights_.weights().residual_size(); }
   int filters() const {
-    return weights_.weights().residual(0).conv1().weights().params().size() /
-           2304;
+    // return weights_.weights().residual(0).conv1().weights().params().size() /
+    //        2304;
+    return weights_.input.biases.size();
   }
 
   // Not exported methods.
