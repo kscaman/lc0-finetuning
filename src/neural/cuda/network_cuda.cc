@@ -140,7 +140,7 @@ class CudaNetworkComputation : public NetworkComputation {
   }
 
   float GetPartialVal(int sample, int id) const override {
-    return inputs_outputs_->op_partial_mem_[sample * network_.numOutputPartial_ + id];
+    return inputs_outputs_->op_partial_mem_[sample * network_->numOutputPartial_ + id];
   }
 
  private:
