@@ -32,6 +32,7 @@
 #include "neural/encoder.h"
 #include "neural/factory.h"
 #include "neural/loader.h"
+#include "neural/network_legacy.h"
 #include "utils/fastmath.h"
 #include "utils/optionsparser.h"
 
@@ -73,7 +74,8 @@ class Weights {
   int filters() const {
     // return weights_.weights().residual(0).conv1().weights().params().size() /
     //        2304;
-    return weights_.weights().input().biases().size();
+    LegacyWeights legacyWeights(weights_.weights());
+    return legacyWeights.input.biases.size();
   }
 
   // Not exported methods.
@@ -131,8 +133,8 @@ class Input {
 class Output {
  public:
   // Not exposed.
-  Output(const NetworkComputation& computation, int idx) {
-    for (int i = 0; i < 18432; ++i) partial_[i] = computation.GetPartialVal(idx, i);
+  Output(const NetworkComputation& computation, const Weights& weights, int idx) : partial_(weights.filters()) {
+    for (int i = 0; i < partial_.size(); ++i) partial_[i] = computation.GetPartialVal(idx, i);
     for (int i = 0; i < 1858; ++i) p_[i] = computation.GetPVal(idx, i);
     q_ = computation.GetQVal(idx);
     d_ = computation.GetDVal(idx);
@@ -142,13 +144,7 @@ class Output {
   float d() const { return d_; }
   float m() const { return m_; }
 
-  std::vector<float> partial() {
-    std::vector<float> result(18432);
-    for (int i = 0; i < 18432; ++i) {
-      result[i] = partial_[i];
-    }
-    return result;
-  }
+  std::vector<float> partial() { return partial_; }
 
   std::vector<float> p_raw(const std::vector<int>& indicies) {
     std::vector<float> result(indicies.size());
@@ -181,7 +177,7 @@ class Output {
   }
 
  private:
-  float partial_[18432];
+  std::vector<float> partial_;
   float p_[1858];
   float q_;
   float d_;
@@ -235,7 +231,7 @@ class Backend {
     computation->ComputeBlocking();
     std::vector<std::unique_ptr<Output>> result;
     for (int i = 0; i < computation->GetBatchSize(); ++i) {
-      result.push_back(std::make_unique<Output>(*computation, i));
+      result.push_back(std::make_unique<Output>(*computation, *weights, i));
     }
     return result;
   }
