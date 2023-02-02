@@ -206,7 +206,7 @@ class Backend {
 
   Backend(const Weights* weights, const std::optional<std::string>& backend,
           const std::optional<std::string>& options) {
-    numFilters_ = weights->filters();
+    numFilters_ = 192; //weights->filters();
     std::optional<WeightsFile> w;
     if (weights) w = weights->weights();
     const auto& backends = GetAvailableBackends();

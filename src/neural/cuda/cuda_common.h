@@ -60,7 +60,7 @@ static constexpr int kMaxResBlockFusingSeFp16AmpereSmem =
     sizeof(half);  // shared memory used by the special
                    // kernel
 
-static constexpr int kMaxOutputPartial = kMaxResBlockFusingChannels * 64;
+static constexpr int kMaxOutputPartial = 192 * 64; //kMaxResBlockFusingChannels * 64;
 
 #ifdef USE_CUDNN
 void CudnnError(cudnnStatus_t status, const char* file, const int& line);

@@ -235,7 +235,7 @@ class CudaNetwork : public Network {
     const int kNumOutputPartial = kNumFilters * 64;
     numBlocks_ = (int)weights.residual.size();
     numFilters_ = kNumFilters;
-    numOutputPartial_ = kNumOutputPartial;
+    numOutputPartial_ = 192 * 64; //kNumOutputPartial;
 
     // Warn if the memory required for storing transformed weights is
     // going to exceed 40% of total video memory, force custom_winograd off
