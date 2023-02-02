@@ -140,7 +140,7 @@ class CudaNetworkComputation : public NetworkComputation {
   }
 
   float GetPartialVal(int sample, int id) const override {
-    return inputs_outputs_->op_partial_mem_[sample * 192 * 64 + id]; //kNumOutputPartial
+    return inputs_outputs_->op_partial_mem_[sample * network_.numOutputPartial_ + id];
   }
 
  private:
@@ -235,7 +235,7 @@ class CudaNetwork : public Network {
     const int kNumOutputPartial = kNumFilters * 64;
     numBlocks_ = (int)weights.residual.size();
     numFilters_ = kNumFilters;
-    numOutputPartial_ = 192 * 64; //kNumOutputPartial;
+    numOutputPartial_ = kNumOutputPartial;
 
     // Warn if the memory required for storing transformed weights is
     // going to exceed 40% of total video memory, force custom_winograd off
@@ -836,6 +836,8 @@ class CudaNetwork : public Network {
   // warning. Is never called (but compiler thinks that it could).
   void UglyFunctionToSilenceNvccWarning() { InputsOutputs io(0, false, false); }
 
+  int numOutputPartial_;
+
  private:
   const NetworkCapabilities capabilities_;
   int gpu_id_;
@@ -854,7 +856,6 @@ class CudaNetwork : public Network {
 
   int numBlocks_;
   int numFilters_;
-  int numOutputPartial_;
   bool has_se_;
   bool conv_policy_;
   bool attn_policy_;
